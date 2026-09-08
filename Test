@@ -1,0 +1,155 @@
+local  lp = game.Players.LocalPlayer
+del=game:GetService("ReplicatedStorage").Events.DeleteObject
+
+
+local ImageTable = { 
+85751916151631,
+93449768960068,
+125389353199374,
+17557598045,
+18229928228,
+}
+
+local function LoadObbyAndClaimObby(ID)
+game:GetService("ReplicatedStorage").Events.ClaimMeARandomObby:InvokeServer()
+task.wait(1)
+warn(game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("LoadObby"):InvokeServer(tostring(lp.UserId .. "#" .. ID)))
+end
+coroutine.wrap(function()
+LoadObbyAndClaimObby(1)
+end)()
+special=workspace.Obbies:FindFirstChild(lp.Name).Items.Special
+task.wait(3)
+
+
+-- dupe method
+local set = 130
+local headSize = vector.create(70,0.2,70)
+
+local function CreateDummy()
+		local duped = {}
+		for i = 1, set do
+			local tbl= {}
+			table.insert(duped, tbl)
+			table.insert(tbl, special:FindFirstChildWhichIsA("Model").Head)
+			table.insert(tbl, workspace.Obbies[lp.Name].Area.Area.CFrame * CFrame.new(0,-80,0));
+		   table.insert(tbl, workspace.Obbies[lp.Name].Area.Area.Size)
+		end
+    warn(game.ReplicatedStorage.Events.CloneObject:InvokeServer(duped))
+end
+
+local h={}
+local headTable = {}
+local function ChangeSize()
+   for i,v in next, special.Parent.Parts:GetChildren() do
+      if v:IsA"Part" and v.Name== "Head" then
+      	table.insert(headTable,{v,special.Parent.Parent.Area.Area.CFrame * CFrame.new(0,-80,0) , headSize})
+      end
+end
+
+end
+blockObby=function()
+   coroutine.wrap(function()
+      game.ReplicatedStorage.Events.EffectObject:InvokeServer({
+         {table.unpack(special.Parent.Buttons.Button:GetDescendants()),
+            "outline",
+            "Default"
+         }
+      })
+   end)()
+end
+
+AddImage=function()
+coroutine.wrap(function()
+   for i,v in next, special.Parent.Parts:GetChildren() do
+   	if v.Name =="Head" then
+      local random = ImageTable[math.random(1,#ImageTable)]
+      
+      game.ReplicatedStorage.Events.EffectObject:InvokeServer(
+         {v},
+            "image",
+            "Default"
+         
+      )
+      task.wait()
+      game.ReplicatedStorage.Events.EffectObject:InvokeServer(
+         {v},
+            "image",
+            "Face",
+             "Top"
+         
+      )game.ReplicatedStorage.Events.EffectObject:InvokeServer(
+         {v},
+            "image",
+            "Image",
+            tostring(random)
+         
+      )
+      print(game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("PaintObject"):InvokeServer({v},"Transparency",1))
+   end
+   end
+   end)()
+end
+local To = {}
+local function Transparency()
+   for i,v in next, special.Parent.Parts:GetChildren() do
+      if v.Name =="Head" then
+         table.insert(To, v)
+      end
+   end
+   task.wait(0.2)
+print(game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("PaintObject"):InvokeServer(To,"Transparency",1))
+end
+
+CreateDummy()
+
+f=function()
+loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Simulation-Radius-Changer-21748"))()
+end
+coroutine.wrap(function() for i=1,30 do f() end;end)()
+local he={}
+for i,v in next, special: GetDescendants () do
+if v:IsA"SpecialMesh" and v.Parent.Name == "Head" then
+   table.insert(he,v)
+end
+end
+
+del:InvokeServer(he)
+del.Parent.Undo:InvokeServer();
+task.wait(0.5)
+-- head parent to Parts Folder
+ChangeSize()
+warn(game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("MoveObject"):InvokeServer(headTable))
+task.wait(3)
+
+model={}
+for i,v in next, special: GetDescendants() do
+if  v.Name =="Character Model" and v:IsA"Part" then
+table.insert(model,v);end;end;
+task.wait()
+del:InvokeServer(model)
+
+coroutine.wrap(function()
+Transparency()
+AddImage()
+end)()
+
+task.wait(0.3)
+for i= 1,2 do
+task.wait(2)
+blockObby()
+repeat wait() until  #special.Parents.Parts:GetChildren() > 80
+for i,v in next, workspace.Obbies[game.Players.LocalPlayer.Name].Items.Parts: GetDescendants() do
+if v.Name~="Part" and v.Name == "Head" then
+v.CFrame = CFrame.new(
+            math.random(-1563,1317),
+            math.random(1,100),
+            math.random(-50,50)
+        )
+
+end
+end
+end
+end
+
+game:Shutdown()
