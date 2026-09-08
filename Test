@@ -18,7 +18,20 @@ game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("LoadOb
 special=workspace.Obbies:FindFirstChild(lp.Name).Items.Special
 task.wait()
 
+if not special:FindFirstChild("Character Model") then
+	local args = {
+	"Character Model",
+	CFrame.new(929.510009765625, 2.5, -69.52998352050781, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("AddObject"):InvokeServer(unpack(args))
+elseif not special.Parent.Buttons then
+	local args = {
+	"Button",
+	CFrame.new(929.510009765625, 2.5, -69.52998352050781, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("AddObject"):InvokeServer(unpack(args))
 
+end
 -- dupe method
 local set = 100
 local headSize = vector.create(70,0.2,70)
@@ -148,4 +161,5 @@ v.CFrame = CFrame.new(
 end
 end
 end
-
+task.wait(15)
+game:Shutdown()
