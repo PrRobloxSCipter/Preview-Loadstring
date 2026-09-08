@@ -138,7 +138,7 @@ task.wait(0.3)
 for i= 1,2 do
 task.wait(2)
 blockObby()
-repeat wait() until  #special.Parents.Parts:GetChildren() > 80
+repeat wait() until  #special.Parent.Parts:GetChildren() > 80
 for i,v in next, workspace.Obbies[game.Players.LocalPlayer.Name].Items.Parts: GetDescendants() do
 if v.Name~="Part" and v.Name == "Head" then
 v.CFrame = CFrame.new(
