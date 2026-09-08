@@ -21,7 +21,7 @@ task.wait()
 if not special:FindFirstChild("Character Model") then
 	local args = {
 	"Character Model",
-	lp.Character.Head
+	lp.Character.Head.CFrame
 }
 game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("AddObject"):InvokeServer(unpack(args))
 elseif not special.Parent.Buttons then
