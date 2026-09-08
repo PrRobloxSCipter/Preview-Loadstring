@@ -150,6 +150,5 @@ v.CFrame = CFrame.new(
 end
 end
 end
-end
 
 game:Shutdown()
