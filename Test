@@ -10,20 +10,17 @@ local ImageTable = {
 18229928228,
 }
 
-local function LoadObbyAndClaimObby(ID)
+
 game:GetService("ReplicatedStorage").Events.ClaimMeARandomObby:InvokeServer()
 task.wait(1)
-warn(game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("LoadObby"):InvokeServer(tostring(lp.UserId .. "#" .. ID)))
-end
-coroutine.wrap(function()
-LoadObbyAndClaimObby(1)
-end)()
+game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("LoadObby"):InvokeServer(tostring(lp.UserId .. "#" .. 1))
+
 special=workspace.Obbies:FindFirstChild(lp.Name).Items.Special
-task.wait(3)
+task.wait()
 
 
 -- dupe method
-local set = 130
+local set = 100
 local headSize = vector.create(70,0.2,70)
 
 local function CreateDummy()
@@ -43,19 +40,21 @@ local headTable = {}
 local function ChangeSize()
    for i,v in next, special.Parent.Parts:GetChildren() do
       if v:IsA"Part" and v.Name== "Head" then
-      	table.insert(headTable,{v,special.Parent.Parent.Area.Area.CFrame * CFrame.new(0,-80,0) , headSize})
+      	table.insert(headTable,{v,special.Parent.Parent.Area.Area.CFrame * CFrame.new(0,-80,0), headSize})
       end
 end
 
 end
 blockObby=function()
    coroutine.wrap(function()
-      game.ReplicatedStorage.Events.EffectObject:InvokeServer({
-         {table.unpack(special.Parent.Buttons.Button:GetDescendants()),
-            "outline",
-            "Default"
-         }
-      })
+      game.ReplicatedStorage.Events.EffectObject:InvokeServer(
+        {
+         workspace:WaitForChild("Obbies"):WaitForChild(lp.Name):WaitForChild("Items"):WaitForChild("Buttons"):WaitForChild("Button").Activateds
+         },
+         
+         "outline",
+          "Default"
+               )
    end)()
 end
 
@@ -124,7 +123,7 @@ task.wait(3)
 
 model={}
 for i,v in next, special: GetDescendants() do
-if  v.Name =="Character Model" and v:IsA"Part" then
+if  v:IsA("Part") and v.Name =="Character Model" then
 table.insert(model,v);end;end;
 task.wait()
 del:InvokeServer(model)
@@ -138,7 +137,6 @@ task.wait(0.3)
 for i= 1,2 do
 task.wait(2)
 blockObby()
-repeat wait() until  #special.Parent.Parts:GetChildren() > 80
 for i,v in next, workspace.Obbies[game.Players.LocalPlayer.Name].Items.Parts: GetDescendants() do
 if v.Name~="Part" and v.Name == "Head" then
 v.CFrame = CFrame.new(
@@ -151,4 +149,3 @@ end
 end
 end
 
-game:Shutdown()
